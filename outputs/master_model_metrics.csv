@@ -1,0 +1,15 @@
+Model,Accuracy (%),Precision (%),Recall (%),F1-Score (%),ROC-AUC
+Paper Baseline (XGB+MLP Voting),91.74,86.49,88.89,87.67,0.9528
+Random Forest (Tuned),90.83,86.11,86.11,86.11,0.9502
+Deep Tabular ResNet (SiLU + Skips),90.83,84.21,88.89,86.49,0.9502
+Neuro-Tree Super-Ensemble (TabNet+ResNet+LGB+CB+XGB),90.83,86.11,86.11,86.11,0.9502
+"Ultra-Ensemble (Youden J Calibrated, Th=0.47)",90.83,86.11,86.11,86.11,0.9502
+AdaBoost (Tuned),90.83,86.11,86.11,86.11,0.9448
+Tuned XGBoost,89.91,85.71,83.33,84.51,0.9524
+Tuned LightGBM,89.91,85.71,83.33,84.51,0.9524
+Tuned CatBoost,89.91,83.78,86.11,84.93,0.9444
+Extra Trees (Calibrated),89.91,83.78,86.11,84.93,0.9441
+Regularized SVM (RBF),88.99,80.0,88.89,84.21,0.9189
+K-Nearest Neighbors (KNN),87.16,76.19,88.89,82.05,0.9161
+Decision Tree (Baseline),85.32,76.32,80.56,78.38,0.8408
+Google TabNet Transformer,79.82,62.96,94.44,75.56,0.9521

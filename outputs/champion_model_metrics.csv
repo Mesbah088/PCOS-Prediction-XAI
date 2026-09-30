@@ -1,0 +1,2 @@
+Model Architecture,Test Accuracy (%),Test Precision (%),Test Recall (%),Test F1-Score (%),Test ROC-AUC,10-Fold CV Accuracy,10-Fold CV F1,10-Fold CV AUC,Paper Baseline 10-Fold CV
+Optuna-Tuned Stacking (LGBM + CatBoost + XGBoost + ET + MLP -> ElasticNet),92.66%,91.18%,86.11%,88.57%,0.9521,91.13% ± 3.47%,86.43% ± 5.33%,0.9643 ± 0.0223,92.04% ± 2.58%
