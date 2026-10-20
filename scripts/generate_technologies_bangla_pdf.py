@@ -1,0 +1,440 @@
+import os
+import subprocess
+
+def generate_bangla_study_guide():
+    base_dir = r"c:\Users\user\OneDrive\Desktop\AI_ML\PCOS-Prediction-XAI"
+    html_path = os.path.join(base_dir, "scripts", "technologies_bangla_template.html")
+    pdf_path = os.path.join(base_dir, "PCOS_Technologies_and_Methodology_Study_Guide.pdf")
+
+    html_content = """<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>PCOS AI Technologies & Methodology Study Guide - Bangla</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 14mm 14mm 14mm 14mm;
+            @bottom-right {
+                content: "পৃষ্ঠা " counter(page);
+                font-family: 'Hind Siliguri', sans-serif;
+                font-size: 9pt;
+                color: #64748B;
+            }
+            @bottom-left {
+                content: "PCOS Prediction & Explainable AI Framework • Comprehensive Bangla Study Guide";
+                font-family: 'Hind Siliguri', sans-serif;
+                font-size: 8.5pt;
+                color: #64748B;
+            }
+        }
+        body {
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'Kalpurush', sans-serif;
+            font-size: 10.2pt;
+            line-height: 1.55;
+            color: #1E293B;
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+        .header-banner {
+            border-bottom: 2.5px solid #0284C7;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        h1 {
+            color: #0F172A;
+            font-size: 17pt;
+            font-weight: 700;
+            margin: 0 0 3px 0;
+            line-height: 1.25;
+        }
+        .subtitle {
+            color: #0284C7;
+            font-size: 10.5pt;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+        }
+        .meta-line {
+            font-size: 8.8pt;
+            color: #475569;
+            font-weight: 500;
+        }
+        .callout-box {
+            background-color: #F0F9FF;
+            border: 1px solid #BAE6FD;
+            border-left: 4px solid #0284C7;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 9.6pt;
+        }
+        .section-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 9px 13px;
+            margin-bottom: 10px;
+            page-break-inside: avoid;
+        }
+        .section-title {
+            color: #0F172A;
+            font-size: 11.5pt;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 3px;
+            display: flex;
+            align-items: center;
+        }
+        .badge {
+            background-color: #0284C7;
+            color: #FFFFFF;
+            font-size: 8pt;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 4px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .badge-green { background-color: #10B981; }
+        .badge-purple { background-color: #8B5CF6; }
+        .badge-amber { background-color: #F59E0B; }
+        .badge-red { background-color: #EF4444; }
+
+        p {
+            margin: 0 0 5px 0;
+        }
+        ul {
+            margin: 0 0 6px 0;
+            padding-left: 18px;
+        }
+        li {
+            margin-bottom: 3px;
+        }
+        b {
+            color: #0F172A;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #F1F5F9;
+            color: #0369A1;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 9pt;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0 8px 0;
+            font-size: 8.8pt;
+        }
+        th, td {
+            border: 1px solid #CBD5E1;
+            padding: 5px 8px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #0F172A;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 8.5pt;
+        }
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+        .qa-card {
+            background-color: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-left: 4px solid #DC2626;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            page-break-inside: avoid;
+        }
+        .qa-q {
+            color: #991B1B;
+            font-weight: 700;
+            font-size: 9.8pt;
+            margin-bottom: 3px;
+        }
+        .qa-a {
+            color: #1E293B;
+            font-size: 9.4pt;
+            line-height: 1.5;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Banner -->
+    <div class="header-banner">
+        <h1>PCOS Machine Learning & Explainable AI (XAI)</h1>
+        <div class="subtitle">সম্পূর্ণ টেকনোলজি, অ্যালগরিদম ও মেথডোলজি স্টাডি গাইড (বাংলা সংস্করণ)</div>
+        <div class="meta-line">
+            <b>রিসার্চ স্কোপ:</b> ডেটা প্রিপসেসিং, রটারডাম ফিচার ইঞ্জিনিয়ারিং, ১৫-মডেল সুপার-এনসেম্বল, এক্সএআই স্যুট ও ক্লিনিকাল সিডিএসএস ওয়েব অ্যাপ
+        </div>
+    </div>
+
+    <!-- Intro Callout -->
+    <div class="callout-box">
+        <b>💡 এই গাইডের উদ্দেশ্য:</b> এই ডক্যুমেন্টটিতে আমাদের সম্পূর্ণ PCOS রিসার্চে ব্যবহৃত প্রতিটি টুলস, পাইথন লাইব্রেরি, গাণিতিক অ্যালগরিদম এবং ক্লিনিকাল মেথডোলজি সহজ বাংলায় বিস্তারিত ব্যাখ্যা করা হয়েছে। থিসিস পেপারের মেথডোলজি চ্যাপ্টার পড়া, কনসেপ্ট ক্লিয়ার করা এবং <b>সুপারভাইজার মিটিং ও থিসিস ডিফেন্স ভাইভায় চমৎকার উত্তর দেওয়ার জন্য</b> এটি একটি আদর্শ রেফারেন্স।
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">১</span> Python 3.13 & Virtualenv (কোর রানটাইম ও এনভায়রনমেন্ট)</div>
+        <ul>
+            <li><b>টেকনোলজি কী:</b> Python হলো আর্টিফিশিয়াল ইন্টেলিজেন্স ও বায়োমেডিক্যাল ডেটা সায়েন্সের প্রধান ল্যাঙ্গুয়েজ। <code>virtualenv</code> হলো একটি আলাদা আইসোলেটেড ফোল্ডার যেখানে প্রজেক্টের নির্দিষ্ট লাইব্রেরিগুলো ইনস্টল থাকে।</li>
+            <li><b>আমাদের রিসার্চে কেন ব্যবহার করা হয়েছে:</b> আধুনিক এমএল লাইব্রেরি (LightGBM, CatBoost) এবং এক্সপ্লেনেবিলিটি টুলসের (SHAP, DiCE) মধ্যে ভার্সন কনফ্লিক্ট এড়াতে। এটি ভিন্ন পিসিতে প্রজেক্ট রান করলেও <b>১০০% রিপ্রোডিউসিবল</b> ফলাফল নিশ্চিত করে।</li>
+            <li><b>কী মনে রাখবেন:</b> সব এক্সপেরিমেন্টে <code>random_state=42</code> ফিক্স করা ছিল যেন প্রতিবার ট্রেনিংয়ে হুবহু একই রেজাল্ট পাওয়া যায়।</li>
+        </ul>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">২</span> Pandas & NumPy (ডেটা ম্যানিপুলেশন ও রটারডাম ফিচার ইঞ্জিনিয়ারিং)</div>
+        <ul>
+            <li><b>টেকনোলজি কী:</b> <b>Pandas</b> টেবিল আকারের মেডিক্যাল ডেটা লোড, ফিল্টার ও ক্লিন করে। <b>NumPy</b> উচ্চগতির ম্যাট্রিক্স ক্যালকুলেশন ও গাণিতিক অপারেশন চালায়।</li>
+            <li><b>আমাদের রিসার্চে ভূমিকা:</b> কেরালার ৫৪১ জন পেশেন্টের ডেটাসেট ক্লিন করা, মিসিং ভ্যালু মিডিয়ান/মোড দিয়ে পূরণ করা এবং <b>২৫টি নতুন রটারডাম ফিচার</b> তৈরি করা।</li>
+            <li><b>মূল ফিচার ফর্মুলা:</b>
+                <ul>
+                    <li><code>Follicle_Geometric_Mean = sqrt(Follicle_No._L * Follicle_No._R)</code> &rarr; দুই ওভ্যারির ফলিকল সংখ্যার তারতম্য ব্যালেন্স করে সঠিক ওভারিয়ান ডেনসিটি বের করে।</li>
+                    <li><code>Skin_Metabolic_Score = hair_growth + Skin_darkening + Pimples + Weight_gain</code> &rarr; রোগীর বাহ্যিক হাইপারঅ্যান্ড্রোজেনিজম লক্ষণগুলোর সামগ্রিক তীব্রতা হিসাব করে।</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">৩</span> Rotterdam Consensus Criteria (২০০৩ / ২০২৩ মেডিক্যাল গোল্ড স্ট্যান্ডার্ড)</div>
+        <ul>
+            <li><b>মেডিক্যাল কনসেপ্ট:</b> বিশ্বব্যাপী চিকিৎসাবিজ্ঞানে PCOS শনাক্তের স্বীকৃত গাইডলাইন। এতে ৩টি ক্রাইটেরিয়ার মধ্যে অন্তত ২টি উপস্থিত থাকতে হয়: (১) অনিয়মিত মাসিক (Oligo/Anovulation), (২) পুরুষ হরমোন বৃদ্ধির লক্ষণ (Hyperandrogenism), এবং (৩) আল্ট্রাসাউন্ডে পলিসিস্টিক ওভ্যারির উপস্থিতি (PCOM)।</li>
+            <li><b>রিসার্চে প্রয়োগ:</b> এই গাইডলাইন মেনে আমরা <code>PCOM_Severe_Flag</code> (&ge; ২০টি ফলিকল) এবং <code>PCOM_Rotterdam_Flag</code> (&ge; ১২টি ফলিকল) তৈরি করি। আমাদের ফিচার সিলেকশনে এই ২টি ফিচারই <b>এক নম্বর ও দুই নম্বর র‍্যাংক</b> অর্জন করে, যা প্রমাণ করে আমাদের মডেল মেডিকেল সাইন্সের সাথে পুরোপুরি সংগতিপূর্ণ।</li>
+        </ul>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-green">৪</span> Imbalanced-Learn & SMOTE-ENN (জিরো-লিকেজ বাউন্ডারি ক্লিনিং)</div>
+        <ul>
+            <li><b>সমস্যা:</b> ডেটাসেটে সুস্থ রোগী ছিল ৩৬৪ জন এবং PCOS আক্রান্ত ছিল ১৭৭ জন (~২:১ ইমব্যালেন্স)। ফলে সাধারণ মডেল সুস্থ ক্লাসের দিকে পক্ষপাতদুষ্ট হয়ে পড়ত।</li>
+            <li><b>SMOTE-ENN কেন ব্যবহার হলো:</b> সাধারণ SMOTE অন্ধভাবে ডেটা তৈরি করে ক্লাসের সীমানায় নয়েজ বাড়ায়। <b>SMOTE-ENN</b> হলো একটি হাইব্রিড টেকনিক—প্রথমে এটি সিন্থেটিক ডেটা তৈরি করে, তারপর <b>Edited Nearest Neighbors (ENN)</b> দিয়ে বর্ডারের কনফিউজিং ও ওভারল্যাপিং ডেটা ডিলিট করে দেয়।</li>
+            <li><b>জিরো-লিকেজ প্রটোকল:</b> এই ব্যালেন্সিং কঠোরভাবে শুধুমাত্র <b>ট্রেনিং ফোল্ডের ভেতরে</b> ($৪৩২ \to ৪৬৮$ ব্যালেন্সড স্যাম্পল) করা হয়েছে। ১০৯ জন টেস্ট রোগীর ডেটা কখনো রিস্যাম্পল বা টাচ করা হয়নি, যা রিভিউয়ারদের ডেটা লিকেজ সংক্রান্ত আপত্তি দূর করে।</li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Section 5 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">৫</span> Scikit-Learn (কোর এমএল পাইপলাইন ও ৯টি ক্লাসিক্যাল বেসলাইন মডেল)</div>
+        <ul>
+            <li><b>টেকনোলজি কী:</b> পাইথনের সবচেয়ে জনপ্রিয় মেশিন লার্নিং লাইব্রেরি।</li>
+            <li><b>রিসার্চে ভূমিকা:</b> ইন-ফোল্ড <code>MinMaxScaler</code> দিয়ে ফিচার স্কেলিং করা, <code>RepeatedStratifiedKFold</code> দিয়ে ৫-ফোল্ড ক্রস-ভ্যালিডেশন চালানো, এবং ৯টি ক্লাসিক্যাল অ্যালগরিদম ট্রেন করা:
+                <br/><i>Random Forest, Extra Trees, Gradient Boosting, MLP Neural Network, SVM (RBF), Logistic Regression, LDA, Gaussian Naive Bayes, এবং KNN।</i>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-purple">৬</span> স্টেট-অফ-দ্য-আর্ট গ্র্যাডিয়েন্ট বুস্টারস (LightGBM, CatBoost, XGBoost)</div>
+        <p>ট্যাবুলার মেডিক্যাল ডেটায় গ্র্যাডিয়েন্ট বুস্টেড ডিসিশন ট্রি (GBDT) সবচেয়ে শক্তিশালী। আমরা ৩টি শীর্ষ বুস্টার কম্বাইন করেছি:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">মডেলের নাম</th>
+                    <th style="width: 28%;">ট্রি গ্রোথ মেকানিজম</th>
+                    <th>আমাদের PCOS রিসার্চে প্রধান সুবিধা</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>LightGBM</b></td>
+                    <td>Leaf-wise (Best-First) Growth</td>
+                    <td>অত্যন্ত দ্রুত এবং ১৬টি রটারডাম ফিচারের ভেতরের জটিল মাল্টি-লেভেল ইন্টারঅ্যাকশন নিখুঁতভাবে ধরতে পারে।</td>
+                </tr>
+                <tr>
+                    <td><b>CatBoost</b></td>
+                    <td>Symmetric (Oblivious) Trees</td>
+                    <td>ছোট মেডিক্যাল ডেটাসেটে ওভারফিটিং রোধ করে এবং ক্যাটাগরিক্যাল বাইনারি লক্ষণগুলোর (যেমন hair_growth, pimples) জন্য সেরা।</td>
+                </tr>
+                <tr>
+                    <td><b>XGBoost</b></td>
+                    <td>Depth-wise Greedy Splitting</td>
+                    <td>L1 ও L2 রেগুলারাইজেশনের মাধ্যমে মডেলের ভ্যারিয়েন্স কমায় এবং লিফ ওয়েট এক্সপ্লোশন প্রতিরোধ করে।</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-green">৭</span> চ্যাম্পিয়ন সুপার-এনসেম্বল (Soft-Voting) ও স্ট্যাকিং মেটা-লার্নার</div>
+        <ul>
+            <li><b>🥇 Champion Soft-Voting Super-Ensemble:</b> ৪টি সেরা ও ভিন্নধর্মী মডেলের প্রোবাবিলিটিকে ওয়েইটেড অ্যাভারেজ করে ডিসিশন নেয়:
+                <br/><code>P(PCOS) = [1.2 &middot; P(LGBM) + 1.2 &middot; P(CatBoost) + 1.0 &middot; P(XGBoost) + 0.8 &middot; P(MLP)] / 4.2</code>
+                <br/><i>ফলাফল:</i> এটি ৩৬ জন পজিটিভ রোগীর মধ্যে ৩২ জনকে শনাক্ত করেছে (<b>৮৮.৮৯% Recall</b>, মাত্র ৪টি কেস মিস) এবং ৫-ফোল্ড ক্রস-ভ্যালিডেশনে <b>৯৮.৩৬ ± ১.০৪% F1-স্কোর</b> নিশ্চিত করেছে।
+            </li>
+            <li><b>🥈 Champion Stacking Meta-Learner:</b> ৪টি বেস মডেলের আউট-অফ-ফোল্ড প্রেডিকশনকে ইনপুট হিসেবে নিয়ে একটি Level-1 Logistic Regression মেটা-ক্লাসিফায়ার দিয়ে ফাইনাল প্রেডিকশন দেয় (টেস্ট এক্যুরেসি <b>৯১.৭৪%</b>, স্পেসিফিসিটি <b>৯৩.১৫%</b>, ROC-AUC <b>০.৯৪৪১</b>)।</li>
+        </ul>
+    </div>
+
+    <!-- Section 8 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-amber">৮</span> Platt Scaling (ক্লিনিকাল প্রোবাবিলিটি ক্যালিব্রেশন)</div>
+        <ul>
+            <li><b>সমস্যা:</b> ডিসিশন ট্রি মডেলগুলো অতিরিক্ত কনফিডেন্ট হয়ে প্রোবাবিলিটিকে ০ অথবা ১-এর দিকে ঠেলে দেয়। একজন ডাক্তারের জন্য প্রেডিক্টেড প্রোবাবিলিটির সত্যতা জানা জরুরি।</li>
+            <li><b>সমাধান:</b> <b>Platt Scaling (সিগময়েড রিগ্রেশন)</b> প্রয়োগ করে মডেলের Brier Score কমিয়ে <b>০.০৬৩৩</b>-এ নামিয়ে আনা হয়েছে। এর ফলে মডেল যদি বলে কোনো রোগীর ঝুঁকি ৮০%, তবে ঐতিহাসিকভাবে ওই গ্রুপের প্রতি ১০ জনের মধ্যে ৮ জনই প্রকৃতপক্ষে PCOS আক্রান্ত।</li>
+        </ul>
+    </div>
+
+    <!-- Section 9 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">৯</span> SciPy: Wilcoxon Signed-Rank Test (স্ট্যাটিস্টিক্যাল ভ্যালিডেশন)</div>
+        <ul>
+            <li><b>কনসেপ্ট:</b> নন-প্যারামেট্রিক পেয়ার্ড টেস্ট, যা ফোল্ড টু ফোল্ড মডেলগুলোর স্কোরের পার্থক্য পরিমাপ করে।</li>
+            <li><b>ফলাফল:</b> আমাদের চ্যাম্পিয়ন এনসেম্বলের পারফরম্যান্স অন্য মডেলের চেয়ে যে স্ট্যাটিস্টিক্যালি উল্লেখযোগ্য ($p < 0.05$) এবং নিছক ভাগ্যের বিষয় নয়—তা বৈজ্ঞানিকভাবে প্রমাণিত হয়েছে।</li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- Section 10 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-purple">১০</span> 360° Explainable AI (XAI) স্যুট (ব্ল্যাক-বক্স দূরীকরণ)</div>
+        <p>চিকিৎসকদের কাছে এআই গ্রহণযোগ্য করতে আমরা ৩টি ভিন্ন দৃষ্টিকোণ থেকে মডেলের সিদ্ধান্ত ব্যাখ্যা করেছি:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 22%;">XAI মেথড</th>
+                    <th style="width: 28%;">গাণিতিক ভিত্তি</th>
+                    <th>ক্লিনিকাল প্রশ্নের উত্তর (ডাক্তারের সুবিধা)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>SHAP</b><br/>(TreeExplainer)</td>
+                    <td>Cooperative Game Theory (Shapley Values)</td>
+                    <td><b>"কোন লক্ষণগুলো এই রোগীর ঝুঁকি বাড়াতে ভূমিকা রেখেছে?"</b><br/>পুরো ডেটাসেটে গ্লোবাল ইম্প্যাক্ট এবং একক রোগীর ওয়াটারফল প্লটে প্রতি ফিচারের সুনির্দিষ্ট অবদান দেখায়।</td>
+                </tr>
+                <tr>
+                    <td><b>LIME</b><br/>(Tabular Explainer)</td>
+                    <td>Local Linear Surrogate Model</td>
+                    <td><b>"কোন ক্লিনিকাল থ্রেশহোল্ড রুলের কারণে এই সিদ্ধান্ত এলো?"</b><br/>যেমন: Follicle_No._R > 10 এবং PCOM_Rotterdam_Flag = 1 এর জন্য ঝুঁকি +৩৮% বেড়েছে।</td>
+                </tr>
+                <tr>
+                    <td><b>DiCE</b><br/>(Counterfactuals)</td>
+                    <td>Gradient Optimization on Actionable Features</td>
+                    <td><b>"রোগী কীভাবে সুস্থ ক্যাটাগরিতে ফিরে আসতে পারেন?"</b><br/>যেমন: ওজন ৭২ থেকে ৬৪ কেজিতে নামালে এবং ফাস্টফুড বন্ধ করলে ঝুঁকি ৮৯% থেকে ২২%-এ নেমে আসবে।</td>
+                </tr>
+                <tr>
+                    <td><b>Clinical Nomogram</b><br/>(ক্লিনিকাল নমোগ্রাম)</td>
+                    <td>Log-odds Point Transformation</td>
+                    <td><b>"কম্পিউটার ছাড়াই ডাক্তারের টেবিলে স্কেল মেপে ঝুঁকি বের করা সম্ভব?"</b><br/>পয়েন্ট-ভিত্তিক স্কেলিং চার্ট, যা কলম দিয়ে দাগ টেনে হিসাব করা যায়।</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 11, 12, 13 -->
+    <div class="section-card">
+        <div class="section-title"><span class="badge">১১</span> Joblib (মডেল সিরিয়ালাইজেশন ও প্রিজারভেশন)</div>
+        <ul>
+            <li>সম্পূর্ণ ট্রেন্ড ও ক্যালিব্রেটেড চ্যাম্পিয়ন মডেল পাইপলাইনটিকে একটিমাত্র বাইনারি ফাইলে (<code>outputs/champion_ensemble_model.joblib</code>, সাইজ <b>২.৭৬ MB</b>) সংরক্ষণ করা হয়েছে। এতে যেকোনো নতুন রোগীর ডেটা দিলে ১০ মিলিসেকেন্ডের কম সময়ে প্রেডিকশন পাওয়া যায়।</li>
+        </ul>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title"><span class="badge badge-green">১২</span> Streamlit (ক্লিনিকাল ডিসিশন সাপোর্ট সিস্টেম - CDSS ওয়েব অ্যাপ)</div>
+        <ul>
+            <li>ডাক্তারদের ব্যবহারের জন্য একটি ইন্টারঅ্যাক্টিভ ওয়েব অ্যাপ্লিকেশন (<code>app.py</code>)। যেখানে স্লাইডারে রোগীর তথ্য দিলে তাৎক্ষণিক কালার-কোডেড রিস্ক গজ (সবুজ/হলুদ/লাল), লাইভ SHAP ওয়াটারফল চার্ট এবং DiCE লাইফস্টাইল প্রেসক্রিপশন স্ক্রিনে প্রদর্শিত হয়।</li>
+        </ul>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title"><span class="badge">১৩</span> ReportLab (একাডেমিক ভেক্টর PDF জেনারেশন ইঞ্জিন)</div>
+        <ul>
+            <li>থিসিস ও পাবলিকেশন স্ট্যান্ডার্ড PDF তৈরির পাইথন ইঞ্জিন। এটি দিয়ে নিখুঁত মার্জিন, ডায়নামিক ক্যানভাস পেজিনেশন এবং হাই-রেজোলিউশন ডায়াগনস্টিক চার্ট সংবলিত ২ পৃষ্ঠার অফিশিয়াল ট্রেইনিং রিপোর্ট তৈরি করা হয়েছে।</li>
+        </ul>
+    </div>
+
+    <!-- Section 14: Defense Q&A -->
+    <div class="section-title" style="margin-top: 10px; color: #991B1B;"><span class="badge badge-red">১৪</span> মাস্টার্স থিসিস ডিফেন্স ও ভাইভা মাস্টার প্রশ্নোত্তর (Top 5 Viva Q&A)</div>
+
+    <div class="qa-card">
+        <div class="qa-q">প্রশ্ন ১: আপনি Accuracy-এর চেয়ে Sensitivity / Recall-কে কেন বেশি গুরুত্ব দিয়েছেন?</div>
+        <div class="qa-a"><b>উত্তর:</b> মেডিক্যাল ডায়াগনসিসে <b>False Negative (রোগী শনাক্ত না হওয়া)</b> সবচেয়ে ঝুঁকিপূর্ণ। কোনো PCOS রোগীর রোগ নির্ণয় না হলে তিনি দীর্ঘদিন চিকিৎসা ছাড়া থাকবেন, যার ফলে ভবিষ্যতে টাইপ-২ ডায়াবেটিস, কার্ডিওভাসকুলার রোগ ও বন্ধ্যাত্ব দেখা দিতে পারে। আমাদের চ্যাম্পিয়ন মডেল ৩৬ জন পজিটিভ রোগীর মধ্যে ৩২ জনকে সঠিকভাবে শনাক্ত করেছে (<b>৮৮.৮৯% Recall</b>, মাত্র ৪টি মিসড কেস)।</div>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">প্রশ্ন ২: ২৫টি রটারডাম ফিচার ইঞ্জিনিয়ারিং করার বৈজ্ঞানিক যৌক্তিকতা কী?</div>
+        <div class="qa-a"><b>উত্তর:</b> বায়োলজিক্যাল মার্কারগুলো এককভাবে কাজ করে না, পরস্পরের সাথে নন-লিনিয়ার ইন্টারঅ্যাকশনে থাকে। উদাহরণস্বরূপ, বয়স ও ফলিকলের অনুপাত কিংবা দুই পাশের ফলিকলের জিওমেট্রিক মিন একক সংখ্যার চেয়ে ওভারিয়ান ডেনসিটি অনেক নির্ভুলভাবে রিপ্রেজেন্ট করে। চূড়ান্ত ১৬টি ইনভেরিয়েন্ট ফিচারের মধ্যে ৯টিই ছিল আমাদের ইঞ্জিনিয়ার্ড রটারডাম ফিচার, যা প্রমাণ করে ডোমেন নলেজ ফিচারগুলোর প্রেডিকশন পাওয়ার বহুগুণ বাড়িয়েছে।</div>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">প্রশ্ন ৩: সাধারণ SMOTE বাদ দিয়ে কেন SMOTE-ENN ব্যবহার করা হয়েছে?</div>
+        <div class="qa-a"><b>উত্তর:</b> সাধারণ SMOTE অন্ধভাবে ডেটা তৈরি করে ক্লাসের সীমানায় নয়েজ বাড়ায়। <b>SMOTE-ENN</b> প্রথমে সিন্থেটিক ডেটা তৈরি করে, তারপর <b>Edited Nearest Neighbors (ENN)</b> দিয়ে বর্ডারের কনফিউজিং ও ওভারল্যাপিং ডেটা মুছে ফেলে ক্লিন ডিসিশন বাউন্ডারি দেয়। এছাড়া এটি কঠোরভাবে শুধুমাত্র <b>ট্রেনিং ফোল্ডের ভেতরে</b> চালানো হয়েছে, ফলে কোনো ডেটা লিকেজ ঘটেনি।</div>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">প্রশ্ন ৪: আপনি শুধু নিউরাল নেটওয়ার্ক বা ডিপ লার্নিং ব্যবহার করলেন না কেন?</div>
+        <div class="qa-a"><b>উত্তর:</b> ট্যাবুলার ক্লিনিকাল ডেটায় ডিপ লার্নিংয়ের চেয়ে গ্র্যাডিয়েন্ট বুস্টেড ডিসিশন ট্রি (GBDT) বহুগুণ ভালো পারফর্ম করে, কারণ ট্যাবুলার ডেটায় নিউরাল নেটওয়ার্ক সহজে ওভারফিট করে। তবে আমরা ট্রি-মডেলের পাশাপাশি একটি ২-লেয়ারের MLP নিউরাল নেটওয়ার্ক এনসেম্বলে রেখেছি, যাতে ট্রি মডেলের মিস করা প্যাটার্নগুলো নিউরাল নেটওয়ার্ক কভার করতে পারে।</div>
+    </div>
+
+    <div class="qa-card">
+        <div class="qa-q">প্রশ্ন ৫: SHAP এবং DiCE-এর মধ্যে মৌলিক পার্থক্য কী?</div>
+        <div class="qa-a"><b>উত্তর:</b> <b>SHAP হলো অতীতদর্শী (Retrospective):</b> এটি ব্যাখ্যা করে অতীতে রোগীর কোন কোন বায়োমার্কারের কারণে মডেল তাকে হাই-রিস্ক বলল। আর <b>DiCE হলো ভবিষ্যৎমুখী ও নির্দেশনামূলক (Prescriptive):</b> এটি প্রেসক্রিপশন দেয় যে রোগীর ওজন, খাদ্যাভ্যাস বা লাইফস্টাইলে ঠিক কী কী সুনির্দিষ্ট পরিবর্তন আনলে সে রোগমুক্ত ক্যাটাগরিতে ফিরে আসবে।</div>
+    </div>
+
+</body>
+</html>
+"""
+
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+
+    print(f"Bangla HTML Template generated at: {html_path}")
+
+    edge_paths = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    ]
+    browser_exe = next((p for p in edge_paths if os.path.exists(p)), None)
+    
+    if not browser_exe:
+        raise RuntimeError("No Chromium/Edge browser found for PDF printing.")
+
+    cmd = [
+        browser_exe,
+        "--headless",
+        "--disable-gpu",
+        "--allow-file-access-from-files",
+        "--enable-local-file-accesses",
+        f"--print-to-pdf={pdf_path}",
+        html_path
+    ]
+
+    print(f"Running headless PDF generator via: {browser_exe}...")
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode == 0 and os.path.exists(pdf_path):
+        size_kb = os.path.getsize(pdf_path) / 1024
+        print(f"SUCCESS: Flawless Bangla Technology Study Guide PDF generated at:\n  {pdf_path} ({size_kb:.1f} KB)")
+    else:
+        print(f"Error generating PDF: {result.stderr}")
+
+if __name__ == "__main__":
+    generate_bangla_study_guide()
